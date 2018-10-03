@@ -1,6 +1,6 @@
-88968f3a00490f3b2892ff46bfae8573 *DESCRIPTION
+f8a320382dd00e2dc6f0c92f1ee8d530 *DESCRIPTION
 4d1144c2f6fc319be64dc8e75139cfab *NAMESPACE
-ca41eec57e0fc6fb437d6638bc1d3b2c *NEWS
+eb6a812873b829cff481794cfb266ba4 *NEWS
 096bcebe1d739e701ea8d3a6d08ed116 *R/PeakErrorSamples.R
 b87e928ce4b813e20b6a671fcd5e1215 *R/PeakSegJoint.R
 91ca416753d0caf18ad037e8d0368b9c *R/PeakSegJointError.R
@@ -45,11 +45,11 @@ d248470d2dc922b01dce3dca80882ccb *man/peak.at.profile.end.Rd
 e945ec0c2eff356a3fe6a22fcc071a32 *man/peak1.infeasible.Rd
 d6b3ee07061da425b570625b3db566be *src/OptimalPoissonLoss.c
 79bfdc9fa15bd4c61f7b51558cc24104 *src/OptimalPoissonLoss.h
-8fc7c71bdf9684f90b1d02c1050279af *src/PeakSegJoint.c
+b097f7ac27c9c49f3c43eaee75ec6a6f *src/PeakSegJoint.c
 d4ac441bc3d25d9a6f7fcd1330341128 *src/PeakSegJoint.h
-c67f1ccfa52d94562bb4002bb84d7765 *src/PeakSegJointFaster.c
+ef4e5a40e9db7413dfd611be2ef78408 *src/PeakSegJointFaster.c
 1cecea9b718d09840d28a41b567addfd *src/PeakSegJointFaster.h
-52f62b65e3185eab7b5017dedd6a7288 *src/PeakSegJoint_interface.c
+4d31465661bf2b5c0a164d4a516b9291 *src/PeakSegJoint_interface.c
 d77130674277120b6bbbc28a30541bd0 *src/binSum.c
 99bd9e5e0878499e0fc6f21adb37d9d9 *src/binSum.h
 afdf97a9f8ed5441c7b387eab12854d2 *src/clusterPeaks.c
