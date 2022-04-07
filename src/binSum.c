@@ -1,19 +1,19 @@
-/* -*- compile-command: "R CMD INSTALL .." -*- */
-
 #include "binSum.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <R.h>
 
 int
 binSumLR
 (int *data_start_end,
  int *chromStart, int *chromEnd,
  int *coverage, int n_entries,
- int *left_bin_vec, int *right_bin_vec,
+ double *left_bin_vec, double *right_bin_vec,
  int left_chromStart, int right_chromStart,
  int bases_per_bin, int n_bins){
   int bin_chromEnd, bin_chromStart;
-  int extra_chromStart, extra_chromEnd, extra_bases, extra_coverage;
+  int extra_chromStart, extra_chromEnd, extra_bases;
+  double extra_coverage;
   int status;
   /* printf("left bin_size=%d bins=%d start=%d\n",  */
   /* 	 bases_per_bin, n_bins, left_chromStart); */
@@ -123,7 +123,7 @@ int oneBin
  int *profile_chromEnd, 
  int *profile_coverage, 
  int n_profiles,
- int *bin_total,
+ double *bin_total,
  int bin_chromStart,
  int bin_chromEnd){
   return binSum(
@@ -143,7 +143,7 @@ int binSum
  int *profile_chromEnd, 
  int *profile_coverage, 
  int n_profiles,
- int *bin_total, 
+ double *bin_total, 
  int bin_size,
  int n_bins, 
  int bin_chromStart,
@@ -163,7 +163,7 @@ int binSum
   }
   /* printf("bin_chromStart=%d bin_size=%d n_bins=%d status=%d\n", */
   /* 	 bin_chromStart, bin_size, n_bins, status_for_empty_bin); */
-  int *bin_touched = (int*) malloc(sizeof(int) * n_bins);
+  int *bin_touched = Calloc(n_bins,int);
   for(bin_i = 0; bin_i < n_bins; bin_i++){
     bin_total[bin_i] = 0;
     bin_touched[bin_i] = 0;
@@ -223,7 +223,8 @@ int binSum
     /* printf("begin_count_after=%d count_until=%d coverage=%d\n", */
     /* 	   begin_count_after, count_until, */
     /* 	   profile_coverage[profile_i]); */
-    bin_total[bin_i] += profile_coverage[profile_i] * bases;
+    double coverage_dbl = profile_coverage[profile_i];
+    bin_total[bin_i] += coverage_dbl * bases;
     bin_touched[bin_i] = 1;
     profile_i += profile_add;
     // setup next iteration.
@@ -240,7 +241,7 @@ int binSum
 
   // If EMPTY_AS_ZERO flag, return now (untouched totals are zero).
   if(status_for_empty_bin == EMPTY_AS_ZERO){
-    free(bin_touched);
+    Free(bin_touched);
     return 0;
   }
   // If there was no data at all that overlapped a bin (not even
@@ -252,6 +253,6 @@ int binSum
       status = status_for_empty_bin;
     }
   }
-  free(bin_touched);
+  Free(bin_touched);
   return status;
 }

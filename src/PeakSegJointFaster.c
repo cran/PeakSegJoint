@@ -1,11 +1,10 @@
-/* -*- compile-command: "R CMD INSTALL .." -*- */
-
 #include "PeakSegJointFaster.h"
 #include "OptimalPoissonLoss.h"
 #include "binSum.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <math.h>
-//#include <R.h>
+#include <R.h>
 
 int PeakSegJointFaster(
   struct ProfileList *profile_list,
@@ -79,30 +78,30 @@ int PeakSegJointFaster(
   int seg1_chromStart = unfilled_chromStart - extra_before;
   int seg3_chromEnd = unfilled_chromEnd + extra_after;
 
-  int *sample_count_mat = (int*) malloc(n_bins * n_samples * sizeof(int));
-  double *last_cumsum_vec = (double*) malloc(n_samples*sizeof(double));
-  int *sample_cumsum_mat = (int*) malloc(n_bins * n_samples * sizeof(int));
+  double *sample_count_mat = Calloc(n_bins * n_samples,double);
+  double *last_cumsum_vec = Calloc(n_samples,double);
+  double *sample_cumsum_mat = Calloc(n_bins * n_samples,double);
 
-  double *seg1_mean_vec = (double*)malloc(sizeof(double)*n_samples);
-  double *seg2_mean_vec = (double*)malloc(sizeof(double)*n_samples);
-  double *seg3_mean_vec = (double*)malloc(sizeof(double)*n_samples);
+  double *seg1_mean_vec = Calloc(n_samples,double);
+  double *seg2_mean_vec = Calloc(n_samples,double);
+  double *seg3_mean_vec = Calloc(n_samples,double);
   
-  double *seg1_loss_vec = (double*)malloc(sizeof(double)*n_samples);
-  double *candidate_loss_vec = (double*)malloc(sizeof(double)*n_samples);
+  double *seg1_loss_vec = Calloc(n_samples,double);
+  double *candidate_loss_vec = Calloc(n_samples,double);
 
-  int *left_bin_vec = (int*) malloc(n_bins * sizeof(int));
-  int *right_bin_vec = (int*) malloc(n_bins * sizeof(int));
-  int *left_cumsum_mat = (int*) malloc(n_bins * n_samples * sizeof(int));
-  int *right_cumsum_mat = (int*) malloc(n_bins * n_samples * sizeof(int));
-  int *left_initial_cumsum_vec = (int*) malloc(n_samples * sizeof(int));
-  int *right_initial_cumsum_vec = (int*) malloc(n_samples * sizeof(int));
+  double *left_bin_vec = Calloc(n_bins,double);
+  double *right_bin_vec = Calloc(n_bins,double);
+  double *left_cumsum_mat = Calloc(n_bins * n_samples,double);
+  double *right_cumsum_mat = Calloc(n_bins * n_samples,double);
+  double *left_initial_cumsum_vec = Calloc(n_samples,double);
+  double *right_initial_cumsum_vec = Calloc(n_samples,double);
   
-  int *left_cumsum_vec, *right_cumsum_vec;
-  int left_cumsum_value, right_cumsum_value;
+  double *left_cumsum_vec, *right_cumsum_vec;
+  double left_cumsum_value, right_cumsum_value;
   int peakStart, peakEnd;
   int best_seg1, best_seg2;
 
-  int *count_vec, *cumsum_vec, cumsum_value;
+  double *count_vec, *cumsum_vec, cumsum_value;
   int status;
   for(int sample_i=0; sample_i < n_samples; sample_i++){
     profile = samples + sample_i;
@@ -113,23 +112,23 @@ int PeakSegJointFaster(
 		    bases_per_bin, n_bins, seg1_chromStart, 
 		    EMPTY_AS_ZERO);
     if(status != 0){
-      free(sample_count_mat);
-      free(last_cumsum_vec);
-      free(sample_cumsum_mat);
+      Free(sample_count_mat);
+      Free(last_cumsum_vec);
+      Free(sample_cumsum_mat);
   
-      free(seg1_mean_vec);
-      free(seg2_mean_vec);
-      free(seg3_mean_vec);
+      Free(seg1_mean_vec);
+      Free(seg2_mean_vec);
+      Free(seg3_mean_vec);
 
-      free(seg1_loss_vec);
-      free(candidate_loss_vec);
+      Free(seg1_loss_vec);
+      Free(candidate_loss_vec);
 
-      free(left_bin_vec);
-      free(right_bin_vec);
-      free(left_cumsum_mat);
-      free(right_cumsum_mat);
-      free(left_initial_cumsum_vec);
-      free(right_initial_cumsum_vec);
+      Free(left_bin_vec);
+      Free(right_bin_vec);
+      Free(left_cumsum_mat);
+      Free(right_cumsum_mat);
+      Free(left_initial_cumsum_vec);
+      Free(right_initial_cumsum_vec);
       return status;
     }
   }//for sample_i
@@ -147,6 +146,7 @@ int PeakSegJointFaster(
     }
     last_cumsum_vec[sample_i] = cumsum_value;
     seg1_mean = cumsum_value / data_bases;
+    //printf("cumsum=%f mean=%f\n", cumsum_value, seg1_mean);
     flat_loss_vec[sample_i] = OptimalPoissonLoss(cumsum_value, seg1_mean);
   }
   /*
@@ -254,23 +254,23 @@ int PeakSegJointFaster(
 			bases_per_bin, n_bins);
       if(status != 0){
 	//printf("binSumLR bad status\n");
-	free(sample_count_mat);
-	free(last_cumsum_vec);
-	free(sample_cumsum_mat);
+	Free(sample_count_mat);
+	Free(last_cumsum_vec);
+	Free(sample_cumsum_mat);
   
-	free(seg1_mean_vec);
-	free(seg2_mean_vec);
-	free(seg3_mean_vec);
+	Free(seg1_mean_vec);
+	Free(seg2_mean_vec);
+	Free(seg3_mean_vec);
 
-	free(seg1_loss_vec);
-	free(candidate_loss_vec);
+	Free(seg1_loss_vec);
+	Free(candidate_loss_vec);
 
-	free(left_bin_vec);
-	free(right_bin_vec);
-	free(left_cumsum_mat);
-	free(right_cumsum_mat);
-	free(left_initial_cumsum_vec);
-	free(right_initial_cumsum_vec);
+	Free(left_bin_vec);
+	Free(right_bin_vec);
+	Free(left_cumsum_mat);
+	Free(right_cumsum_mat);
+	Free(left_initial_cumsum_vec);
+	Free(right_initial_cumsum_vec);
 	return status;
       }
       left_cumsum_vec = left_cumsum_mat + n_bins*sample_i;
@@ -383,24 +383,24 @@ int PeakSegJointFaster(
       }
     }
   }//while(1 < bases_per_bin)
-  //printf("free at end\n");
-  free(sample_count_mat);
-  free(last_cumsum_vec);
-  free(sample_cumsum_mat);
+  //printf("Free at end\n");
+  Free(sample_count_mat);
+  Free(last_cumsum_vec);
+  Free(sample_cumsum_mat);
   
-  free(seg1_mean_vec);
-  free(seg2_mean_vec);
-  free(seg3_mean_vec);
+  Free(seg1_mean_vec);
+  Free(seg2_mean_vec);
+  Free(seg3_mean_vec);
 
-  free(seg1_loss_vec);
-  free(candidate_loss_vec);
+  Free(seg1_loss_vec);
+  Free(candidate_loss_vec);
 
-  free(left_bin_vec);
-  free(right_bin_vec);
-  free(left_cumsum_mat);
-  free(right_cumsum_mat);
-  free(left_initial_cumsum_vec);
-  free(right_initial_cumsum_vec);
+  Free(left_bin_vec);
+  Free(right_bin_vec);
+  Free(left_cumsum_mat);
+  Free(right_cumsum_mat);
+  Free(left_initial_cumsum_vec);
+  Free(right_initial_cumsum_vec);
   
   return 0;
 }
