@@ -1,11 +1,10 @@
 Package: PeakSegJoint
-Maintainer: Toby Dylan Hocking <toby.hocking@r-project.org>
 Authors@R: person(
  given = c("Toby", "Dylan"),
  family = "Hocking",
  role = c("aut", "cre"),
  email = "toby.hocking@r-project.org")
-Version: 2024.10.1
+Version: 2024.12.4
 License: GPL-3
 URL: https://github.com/tdhock/PeakSegJoint
 BugReports: https://github.com/tdhock/PeakSegJoint/issues
@@ -21,7 +20,8 @@ Suggests: testthat, ggplot2 (>= 2.0), microbenchmark
 Depends: R (>= 2.14)
 Imports: PeakError, parallel, penaltyLearning
 NeedsCompilation: yes
-Packaged: 2024-10-02 02:25:54 UTC; tdhock
+Packaged: 2024-12-04 19:58:40 UTC; hoct2726
 Author: Toby Dylan Hocking [aut, cre]
+Maintainer: Toby Dylan Hocking <toby.hocking@r-project.org>
 Repository: CRAN
-Date/Publication: 2024-10-02 04:40:05 UTC
+Date/Publication: 2024-12-04 20:20:02 UTC
